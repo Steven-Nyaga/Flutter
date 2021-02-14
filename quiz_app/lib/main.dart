@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import './question.dart';
+import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 //MAin executed immediately the app starts
 // void main (){
@@ -8,15 +12,63 @@ import 'package:flutter/material.dart';
 //for function with only one exression
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
-  var questionIndex = 0;
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MyAppState();
+  }
+}
 
-  var questions = ['What\'s my Name', 'What timezone in Kenya', 'Who let the dogs out'];
+//_ turns a class into private
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+  var _totalScore =0;
+
+  var questions = [
+    {
+      'questionText': 'What\'s my Name',
+      'answers': [
+        {'text': 'Steve', 'score': 10},
+        {'text': 'John', 'score': 0},
+        {'text': 'Max', 'score': 0},
+        {'text': 'Dan', 'score': 0}
+      ]
+    },
+    {
+      'questionText': 'What timezone in Kenya',
+      'answers': [
+        {'text': 'GMT', 'score': 0},
+        {'text': 'EAT', 'score': 10},
+        {'text': 'UTC', 'score': 0},
+        {'text': 'AST', 'score': 0}
+      ]
+    },
+    {
+      'questionText': 'Who let the dogs out',
+      'answers': [
+        {'text': 'No Idea', 'score': 0},
+        {'text': 'Shaggy', 'score': 0},
+        {'text': 'Baha Men', 'score': 10},
+        {'text': 'Einstein', 'score': 0}
+      ]
+    },
+  ];
+
+  void _resetQuiz(){
+    setState(() {
+          _questionIndex = 0;
+          _totalScore = 0;
+        });
+  }
 
   //Building a function/method
-  void answerQuestoion(){
-    questionIndex++;
-    // print('Answer Chosen');
+  void _answerQuestoion(int score) {
+    _totalScore = _totalScore + score;
+    setState(() {
+      _questionIndex++;
+    });
+    print(_questionIndex);
   }
 
   //build takes argument context
@@ -31,35 +83,13 @@ class MyApp extends StatelessWidget {
           title: Text('First'),
         ),
         //to add many widgets together we use a container, column or row
-        body: Column(
-          children: <Widget>[
-            Text(questions[questionIndex]),
-            RaisedButton(
-              child: Text('Answer 1'),
-              //for onPressed when the function is void just write the name of the function without
-              //brakets. Coz with brackets it means we are returning somethig. And we cannot return
-              //void
-              onPressed: answerQuestoion,
-            ),
-            RaisedButton(
-              child: Text('Answer 2'),
-              //Another way of implementing fiunctions especially when you are not using them in many 
-              //places (with only one argument) Btw arguments go in the brackets.
-              onPressed: () => print('Answer Chosen'),
-            ),
-            RaisedButton(
-              child: Text('Answer 3'),
-              //More than one argument
-              onPressed: () {
-                print('Answer Question');
-              },
-            ),
-            RaisedButton(
-              child: Text('Answer 4'),
-              onPressed: answerQuestoion,
-            ),
-          ],
-        ),
+        body: _questionIndex < questions.length
+            ? Quiz(
+                answerQuestin: _answerQuestoion,
+                questions: questions,
+                questionIndex: _questionIndex,
+              )
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
