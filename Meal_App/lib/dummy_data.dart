@@ -32,7 +32,7 @@ const DUMMY_CATEGORIES = const [
   Category(
     id: 'c6',
     title: 'Exotic',
-    color: Colors.green,
+    color: Colors.pink,
   ),
   Category(
     id: 'c7',
@@ -47,7 +47,7 @@ const DUMMY_CATEGORIES = const [
   Category(
     id: 'c9',
     title: 'French',
-    color: Colors.pink,
+    color: Colors.green,
   ),
   Category(
     id: 'c10',
