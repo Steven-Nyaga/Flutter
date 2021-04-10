@@ -56,7 +56,7 @@ class MainDrawer extends StatelessWidget {
             () {
               Navigator.of(context).pushReplacementNamed(FiltersScreen.routName);
             },
-            ),
+          ),
         ],
       ),
     );
